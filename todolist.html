@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin-top: 50px;
+}
+
+h1 {
+    color: darkgreen;
+}
+
+#task {
+    padding: 8px;
+    font-size: 16px;
+    width: 200px;
+}
+
+button {
+    padding: 8px 15px;
+    font-size: 16px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+#taskList {
+    display: inline-block;
+    text-align: left;
+    margin-top: 20px;
+}
+
+#taskList li {
+    font-size: 18px;
+    margin: 5px;
+}
+    </style>
+</head>
+<body>
+    <h1>To D0 List</h1>
+    <input type="text" placeholder="Enter task" id="task">
+    <button onclick="addtask()">Add task</button>
+    <ol id="taskList"></ol>
+    <script>
+     function addtask() {
+    let taskText = document.getElementById("task").value;
+    if (taskText != "") {
+        let item = document.createElement("li");
+        item.innerText = taskText;
+        let list = document.getElementById("taskList");
+        list.appendChild(item);
+        document.getElementById("task").value = "";
+    } else {
+        alert("Please enter a task");
+    }
+}
+    </script>
+</body>
+</html>

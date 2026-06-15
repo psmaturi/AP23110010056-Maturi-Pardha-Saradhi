@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin-top: 50px;
+}
+
+h1 {
+    color: darkblue;
+}
+
+button {
+    font-size: 18px;
+    padding: 10px 20px;
+    margin: 10px;
+    cursor: pointer;
+}
+
+#rock {
+    background-color: lightgray;
+}
+
+#paper {
+    background-color: lightyellow;
+}
+
+#scissor {
+    background-color: lightpink;
+}
+
+h3 {
+    margin: 10px;
+}
+
+#result {
+    color: red;
+    font-weight: bold;
+}
+    </style>
+</head>
+<body>
+    <h1>Rock Paper Scissors Game</h1>
+    <button id="rock">Rock</button>
+    <button id="paper">Paper</button>
+    <button id="scissor">Scissor</button>
+    <h3 id="user"></h3>
+    <h3 id="computer"></h3>
+    <h2 id="result"></h2>
+    <script>
+        function play(user) {
+            const choices = ["rock", "paper", "scissor"];
+            const comp = choices[Math.floor(Math.random() * 3)];
+            document.getElementById("user").innerHTML ="Your Choice: " + user;
+            document.getElementById("computer").innerHTML ="Computer Choice: " + comp;
+            let result = "";
+            if (user === comp) {
+                result = "Draw";
+            }
+            else if (
+                (user === "rock" && comp === "scissor") ||
+                (user === "paper" && comp === "rock") ||
+                (user === "scissor" && comp === "paper")
+            ) {
+                result = "You Win ";
+            }
+            else {
+                result = "You Lose ";
+            }
+            document.getElementById("result").innerHTML = result;
+        }
+        document.getElementById("rock")
+            .addEventListener("click", () => play("rock"));
+        document.getElementById("paper")
+            .addEventListener("click", () => play("paper"));
+        document.getElementById("scissor")
+            .addEventListener("click", () => play("scissor"));
+    </script>
+
+</body>
+</html>

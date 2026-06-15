@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dice Game</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin-top: 50px;
+}
+
+h1 {
+    color: darkred;
+}
+
+#dice {
+    width: 100px;
+    height: 100px;
+    margin: 20px;
+    border: 2px solid black;
+}
+
+button {
+    padding: 8px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#result {
+    margin-top: 20px;
+    font-size: 20px;
+}
+    </style>
+</head>
+<body>
+    <h1>Dice Game</h1>
+    <img id="dice" src="1.png" alt="Dice"><br>
+    <button onclick="rollDice()">Roll Dice</button>
+
+    <h2 id="result">Click button to roll  dice</h2>
+    <script>
+        function rollDice() {
+            let randomNum = Math.floor(Math.random() * 6) + 1;
+            let dice = document.getElementById("dice");
+            let attr = document.createAttribute("src");
+            attr.value = randomNum + ".png";
+            dice.setAttributeNode(attr);
+            document.getElementById("result").innerHTML ="You rolled: " + randomNum;
+        }
+    </script>
+</body>
+</html>
