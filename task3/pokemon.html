@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin-top: 30px;
+    background-color: #f0f0f0;
+}
+button {
+    padding: 10px 25px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+.battle-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
+.pokemon-card {
+    background-color: white;
+    border: 2px solid black;
+    border-radius: 10px;
+    padding: 15px;
+    width: 180px;
+}
+.pokemon-card img {
+    width: 120px;
+    height: 120px;
+}
+.power {
+    font-weight: bold;
+}
+#winner {
+    margin-top: 20px;
+    font-size: 22px;
+    font-weight: bold;
+    color: darkred;
+}
+#battleLog {
+    margin: 20px auto;
+    max-width: 400px;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 15px;
+    border-radius: 8px;
+}
+</style>
+<title>Pokemon Battle Simulator</title>
+</head>
+<body>
+<h1>Pokemon Battle Simulator </h1>
+<button onclick="startBattle()">Start Battle</button>
+<div class="battle-container">
+    <div class="pokemon-card">
+        <h2 id="name1">Pokemon 1</h2>
+        <img id="img1">
+        <p class="power" id="power1"></p>
+    </div>
+    <h1>VS</h1>
+    <div class="pokemon-card">
+        <h2 id="name2">Pokemon 2</h2>
+        <img id="img2">
+        <p class="power" id="power2"></p>
+    </div>
+</div>
+<div id="winner"></div>
+<div id="battleLog">
+    Click "Start Battle" to begin!
+</div>
+<script>
+async function getPokemon(id){
+    const response = await fetch(
+        `https://pokeapi.co/api/v2/pokemon/${id}`
+    );
+    return await response.json();
+}
+async function startBattle(){
+    try{
+        const id1 = Math.floor(Math.random() * 1025) + 1;
+        const id2 = Math.floor(Math.random() * 1025) + 1;
+        const pokemon1 = await getPokemon(id1);
+        const pokemon2 = await getPokemon(id2);
+        const attack1 = Math.floor(Math.random() * 100) + 1;
+        const attack2 = Math.floor(Math.random() * 100) + 1;
+        document.getElementById("name1").textContent =pokemon1.name.toUpperCase();
+        document.getElementById("name2").textContent =pokemon2.name.toUpperCase();
+        document.getElementById("img1").src =pokemon1.sprites.front_default;
+        document.getElementById("img2").src = pokemon2.sprites.front_default;
+        document.getElementById("power1").textContent ="Attack Power: " + attack1;
+        document.getElementById("power2").textContent ="Attack Power: " + attack2;
+        let winnerText = "";
+        if(attack1 > attack2){
+            winnerText =
+                `${pokemon1.name.toUpperCase()} WINS!`;
+        }
+        else if(attack2 > attack1){
+            winnerText =
+                `${pokemon2.name.toUpperCase()} WINS! `;
+        }
+        else{
+            winnerText = "DRAW!";
+        }
+        document.getElementById("winner").textContent =
+            winnerText;
+        document.getElementById("battleLog").innerHTML = `<strong>Battle Log</strong><br><br>
+            ${pokemon1.name} attacked with power ${attack1}.<br>
+            ${pokemon2.name} attacked with power ${attack2}.<br><br>
+            ${winnerText}
+        `;
+    }
+    catch(error){
+        console.log(error);
+        alert("Failed to load Pokémon.");
+    }
+}
+</script>
+</body>
+</html>
