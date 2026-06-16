@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pokemon Search Card</title>
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin-top: 30px;
+    background-color: #f0f0f0;
+}
+
+h1 {
+    color: darkred;
+}
+
+input {
+    padding: 8px;
+    font-size: 16px;
+    width: 180px;
+}
+
+button {
+    padding: 8px 20px;
+    font-size: 16px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.card {
+    display: none;
+    background-color: white;
+    border: 2px solid black;
+    border-radius: 10px;
+    padding: 20px;
+    width: 280px;
+    margin: 20px auto;
+}
+
+.card img {
+    width: 120px;
+    height: 120px;
+}
+
+.card h2 {
+    margin: 5px 0;
+    color: darkred;
+}
+
+.info p {
+    margin: 5px 0;
+    font-size: 15px;
+    text-align: left;
+}
+</style>
+</head>
+<body>
+
+<h1>Pokemon Search</h1>
+<div>
+    <input type="text" id="pokiname" placeholder="Enter Pokemon Name">
+    <button onclick="pokidata()">Search</button>
+</div>
+<div class="card" id="card">
+    <img id="pokiimg" src="">
+    <h2 id="pokinameDisplay"></h2>
+    <div class="info">
+        <p><b>ID:</b> <span id="id"></span></p>
+        <p><b>Height:</b> <span id="height"></span></p>
+        <p><b>Weight:</b> <span id="weight"></span></p>
+        <p><b>Base Experience:</b> <span id="exp"></span></p>
+        <p><b>Type:</b> <span id="type"></span></p>
+        <p><b>Abilities:</b> <span id="abilities"></span></p>
+        <p><b>Moves:</b> <span id="moves"></span></p>
+    </div>
+</div>
+<script>
+async function pokidata(){
+    try{
+        const pokiname =
+        document.getElementById("pokiname").value.toLowerCase();
+        const response =
+        await fetch(`https://pokeapi.co/api/v2/pokemon/${pokiname}`);
+        if(!response.ok){
+            throw new Error("Pokemon Not Found");
+        }
+        const data = await response.json();
+        document.getElementById("card").style.display = "block";
+        document.getElementById("pokiimg").src =
+        data.sprites.front_default;
+        document.getElementById("pokinameDisplay").textContent =
+        data.name.toUpperCase();
+        document.getElementById("id").textContent =
+        data.id;
+        document.getElementById("height").textContent =
+        data.height;
+        document.getElementById("weight").textContent =
+        data.weight;
+        document.getElementById("exp").textContent =
+        data.base_experience;
+
+        document.getElementById("type").textContent =
+        data.types.map(t => t.type.name).join(", ");
+
+        document.getElementById("abilities").textContent =
+        data.abilities.map(a => a.ability.name).join(", ");
+
+        document.getElementById("moves").textContent =
+        data.moves.slice(0,5).map(m => m.move.name).join(", ");
+
+    }
+    catch(error){
+        alert(error.message);
+    }
+
+}
+
+</script>
+
+</body>
+</html>
